@@ -1,8 +1,10 @@
 from agents import Agent, Runner , AsyncOpenAI, OpenAIChatCompletionsModel, set_tracing_disabled,function_tool
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 gemini_api_key = os.getenv("GOOGLE_API_KEY")
-# print(gemini_api_key)
+print(gemini_api_key)
 
 set_tracing_disabled(disabled=True)
 
@@ -67,7 +69,7 @@ llm_model : OpenAIChatCompletionsModel=OpenAIChatCompletionsModel(
 # 2. LLM task to call Tool and then tool give final result
 
 
-from agents import Agent, Runner, function_tool, ModelSettings
+from agents import  ModelSettings
 from agents.agent import StopAtTools
 @function_tool
 def get_weather(city: str) -> str:
@@ -97,8 +99,8 @@ agent = Agent(
 # print(result.final_output)
 
 
-# result=Runner.run_sync(agent,"What is the weather in Islamabad and sum of 2+2")
-# print(result.final_output)
+result=Runner.run_sync(agent,"What is the weather in Islamabad and sum of 2+2")
+print(result.final_output)
 
 ## In this case Tool will give final result for weather while for sum LLM will respond finally
 # only weather tool if call then pause not for others
