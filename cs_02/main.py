@@ -1,30 +1,23 @@
-from agents import Agent, Runner , AsyncOpenAI, OpenAIChatCompletionsModel, set_tracing_disabled,function_tool
-import os
-from dotenv import load_dotenv
-load_dotenv()
+from agents import Agent, Runner ,function_tool,RunConfig,set_default_openai_client,set_default_openai_api
+from my_config.config import llm_model,external_client
+# Global Level Configuration( used same company LLMs)
+set_default_openai_client(external_client)
+set_default_openai_api("chat_completions")
+# only pass model at Agent in model parameter like model="gemini-2.5-flash"
 
-gemini_api_key = os.getenv("GOOGLE_API_KEY")
-print(gemini_api_key)
+agent = Agent(name="Assistant", instructions="You are a helpful assistant" ,model="gemini-2.5-flash")
+# Agent level Config
 
-set_tracing_disabled(disabled=True)
+result = Runner.run_sync(
+                        starting_agent=agent, 
+                         input="Write the name of founder of openai.",
+                        #  run_config=RunConfig(model=llm_model,model_provider=external_client)
+                         )
+print(result.final_output)
+# Runner level Config
 
-external_client: AsyncOpenAI = AsyncOpenAI(
-    api_key=gemini_api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-)
-llm_model : OpenAIChatCompletionsModel=OpenAIChatCompletionsModel(
-    model="gemini-2.5-flash",
-    openai_client=  external_client,
-)
 # from agents import enable_verbose_stdout_logging;
 # enable_verbose_stdout_logging();
-
-# agent = Agent(name="Assistant", instructions="You are a helpful assistant" ,model=llm_model)
-
-# result = Runner.run_sync(agent, "Write the name of founder of openai.")
-# print(result.final_output)
-
-
 #TOOLS
 
 # from agents import Agent, Runner,function_tool
