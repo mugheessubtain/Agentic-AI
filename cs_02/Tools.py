@@ -1,6 +1,6 @@
 from my_config.config import llm_model
 from agents import Agent,Runner
-from Output_types import MyData
+# from Output_types import MyData
 from myTools.math_tools import add_numbers, subtract_numbers, multiply_numbers, divide_numbers
 
 
@@ -8,7 +8,6 @@ mathAgent=Agent(
     name="Math Agent",
     instructions="Perform basic math operations.",
     model=llm_model,
-    output_type=MyData,
     tools=[
         add_numbers,
         subtract_numbers,
