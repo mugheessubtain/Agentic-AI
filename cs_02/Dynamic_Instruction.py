@@ -20,8 +20,8 @@ user_1=UserContext(name="Mughees", age=18,phone=1234567890,current_conservation=
 user_2=UserContext(name="Mutahir", age=16,phone=1234567890,current_conservation=["Hi","How are you?"])
 
 def dynamic_instruction(context:RunContextWrapper[UserContext],agent:Agent[UserContext])-> str:
-    print("Context:",context.context) # not getting name
-    print("Agent:",agent)
+    # print("Context:",context.context) # not getting name
+    # print("Agent:",agent)
     context.context.update_memory(f"{context.context.name} is a user has a phone number {context.context.phone}")
     context.context.update_conservation("Added Dynamic Instruction")
     return f" The user name is {context.context.name}You are a helpful assistant. You can answer questions"

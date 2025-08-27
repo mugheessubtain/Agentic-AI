@@ -1,5 +1,10 @@
-from agents import Agent, Runner ,function_tool
+from agents import Agent, Runner ,function_tool, trace
 from my_config.config import llm_model
+import os 
+from dotenv import load_dotenv, find_dotenv
+
+
+_: bool = load_dotenv(find_dotenv())
 
 
 # from agents import enable_verbose_stdout_logging;
@@ -7,15 +12,21 @@ from my_config.config import llm_model
 #TOOLS
 
 from agents import Agent, Runner,function_tool
+
+openaiKey = os.getenv("OPENAI_API_KEY")
+print(openaiKey)
+
+
 @function_tool
 def weather(city:str):
     return f"The weather in {city} is sunny"
 
+with trace("Creating agent with weather tool"):
 
-agent = Agent(name="Assistant",tools=[weather] ,model=llm_model)
+ agent = Agent(name="Assistant",tools=[weather] ,model=llm_model)
 
-result = Runner.run_sync(agent, "What is weather in karachi.")
-print(result.final_output)
+ result = Runner.run_sync(agent, "What is weather in karachi.")
+ print(result.final_output)
 
 ## LLM will give final result 
 # 1. Request goes to LLM 
