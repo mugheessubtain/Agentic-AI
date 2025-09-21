@@ -16,15 +16,15 @@ class BookContext:
 #     """"Generate Summary of the book name from the context"""
 #     return f"The Book name is '{ctx.context.title}' by {ctx.context.author}, published in {ctx.context.year}.Summary is {agent.final_output if agent.final_output else 'No summary available yet.'}"
 
-def dynammic_instructions(ctx:RunContextWrapper[BookContext],agent:Agent)->str:
-    return f"You are a summary generator for the book '{ctx.context.title}' by {ctx.context.author}, published in {ctx.context.year}. Provide a concise summary."
+def dynammic_instructions(ctx:RunContextWrapper[BookContext],agent:Agent[BookContext])->str:
+  return f"You are a summary generator for the book '{ctx.context.title}' by {ctx.context.author}, published in {ctx.context.year}. Provide a concise summary."
 async def main():
     book=BookContext(
         title="Rich Dad Poor Dad",
         author="Robert T. Kiyosaki",
         year=1997
     )
-    context_writer=Agent(
+    context_writer=Agent[BookContext](
         name="Assistant agent",
         instructions=dynammic_instructions,
         model=llm_model,
